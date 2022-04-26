@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from flask import Flask, jsonify, abort
+from flask import Flask, jsonify, abort, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
@@ -19,10 +19,12 @@ class Product(db.Model):
     id: int
     title: str
     image: str
+    likes: int
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=False)
     title = db.Column(db.String(200))
     image = db.Column(db.String(200))
+    likes = db.Column(db.Integer, primary_key=True, autoincrement=False, default=0 )
 
 
 @dataclass
@@ -47,6 +49,10 @@ def like(id):
     try:
         productUser = ProductUser(user_id=json['id'], product_id=id)
         db.session.add(productUser)
+        db.session.commit()
+
+        product = Product.query.filter_by(id=id).first()
+        product.likes += 1
         db.session.commit()
 
         publish('product_liked', id)

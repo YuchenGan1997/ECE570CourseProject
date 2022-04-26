@@ -11,6 +11,8 @@ const Main = () => {
 
                 const data = await response.json();
 
+                console.log(data)
+
                 setProducts(data);
             }
         )();
@@ -19,18 +21,21 @@ const Main = () => {
     const like = async (id: number) => {
         await fetch(`http://localhost:8001/api/products/${id}/like`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'}
+            mode: 'cors',
+            headers: {'Content-Type': 'application/json', "Access-Control-Allow-Origin":"*"}
         });
-
+        
         setProducts(products.map(
             (p: Product) => {
                 if (p.id === id) {
+                    console.log(p.likes)
                     p.likes++;
                 }
 
                 return p;
             }
-        ));
+        ))
+
     }
 
     return (

@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from .models import Product, User
 from .producer import publish
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, UserSerializer
 import random
 
 
@@ -48,3 +48,9 @@ class UserAPIView(APIView):
         return Response({
             'id': user.id
         })
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
