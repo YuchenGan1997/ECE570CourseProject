@@ -8,5 +8,7 @@ Sudo docker-compose down.
 Sudo docker-compose up.   
 Sudo docker-compose up(second up if first run).   
 Use postman to post several users.   
-npm install ans npm start.   
+npm install ans npm start.    
+postman: http://localhost:8000/api/user(first run).   
+
 
