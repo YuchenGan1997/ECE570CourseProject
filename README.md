@@ -18,7 +18,8 @@ postman: http://localhost:8000/api/user(first run).
 在main与admin中：  
 rm -rf .dbdata     
 sudo docker-compose down.     
-sudo docker-compose up    (也许执行两次)。       
+sudo docker-compose up    (也许执行两次)。    
+postman: http://localhost:8000/api/user(多执行几次）.     
 
 
 
