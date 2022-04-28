@@ -3,7 +3,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Product, User
-from .producer import publish
+import sys 
+sys.path.append('../') 
+import producer
+from producer import publish 
+#from .producer import publish
 from .serializers import ProductSerializer, UserSerializer
 import random
 

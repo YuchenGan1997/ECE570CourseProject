@@ -5,14 +5,11 @@ django.setup()
 
 from products.models import Product
 
-params = pika.URLParameters('amqps://zbocvraw:yiZaSUmYzsb4Ys1Dv2CyueForb2jujR8@moose.rmq.cloudamqp.com/zbocvraw')
+params = pika.URLParameters('amqps://uewsjhwd:AFwHr-3HhnrFk8a71Szv4EdPdDBCmLzV@chinook.rmq.cloudamqp.com/uewsjhwd?heartbeat=800')
 
 connection = pika.BlockingConnection(params)
 
 channel = connection.channel()
-
-channel.queue_declare(queue='admin')
-
 
 def callback(ch, method, properties, body):
     print('Received in admin')
