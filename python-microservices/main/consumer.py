@@ -1,7 +1,7 @@
 import pika, json
 from main import Product, db
 
-params = pika.URLParameters('amqps://mvrcbrxu:LxlVQV2HYAv_HxaampDXlRYpyf1m7lV6@moose.rmq.cloudamqp.com/mvrcbrxu?heartbeat=800')
+params = pika.URLParameters('your RabbitMQ URL')
 
 connection = pika.BlockingConnection(params)
 
@@ -16,25 +16,24 @@ def callback(ch, method, properties, body):
     print(data)
 
     if properties.content_type == 'product_created':
-        product = Product(id=data['id'], title=data['title'], image=data['image'])
-        db.session.add(product)
+        image = Product(id=data['id'], title=data['title'], image=data['image'])
+        db.session.add(image)
         db.session.commit()
-        print('Product Created')
+        print('Image Created')
 
     elif properties.content_type == 'product_updated':
-        # product = Product.query.get(data['id'])
         product = Product.query.filter_by(id=data['id']).first()
         product.title = data['title']
         product.image = data['image']
         db.session.commit()
-        print('Product Updated')
+        print('Image Updated')
 
     elif properties.content_type == 'product_deleted':
         # product = Product.query.get(data)
         product = Product.query.filter_by(id=data).first()
         db.session.delete(product)
         db.session.commit()
-        print('Product Deleted')
+        print('Image Deleted')
 
 
 channel.basic_consume(queue='main', on_message_callback=callback, auto_ack=True)

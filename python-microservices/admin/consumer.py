@@ -5,7 +5,7 @@ django.setup()
 
 from products.models import Product
 
-params = pika.URLParameters('amqps://mvrcbrxu:LxlVQV2HYAv_HxaampDXlRYpyf1m7lV6@moose.rmq.cloudamqp.com/mvrcbrxu?heartbeat=800')
+params = pika.URLParameters('your RabbitMQ URL')
 
 connection = pika.BlockingConnection(params)
 
@@ -18,10 +18,10 @@ def callback(ch, method, properties, body):
     print('Received in admin')
     id = json.loads(body)
     print(id)
-    product = Product.objects.get(id=id)
-    product.likes = product.likes + 1
-    product.save()
-    print('Product likes increased!')
+    image = Product.objects.get(id=id)
+    image.likes = image.likes + 1
+    image.save()
+    print('Image likes increased!')
 
 
 channel.basic_consume(queue='admin', on_message_callback=callback, auto_ack=True)
